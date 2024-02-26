@@ -16,27 +16,29 @@ export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET!,
   // Configure one or more authentication providers
   providers: [
-    GoogleProvider({
-      clientId: process.env.GOOGLE_ID!,
-      clientSecret: process.env.GOOGLE_SECRET!,
-    }),
-    // ...add more providers here
+    // GoogleProvider({
+    //   clientId: process.env.GOOGLE_ID!,
+    //   clientSecret: process.env.GOOGLE_SECRET!,
+    // }),
     CredentialsProvider({
       name: "Credentials",
       id: "credentials",
       credentials: {
         email: {
           label: "email",
-          type: "email",
+          type: "text",
           placeholder: "email@example.com",
         },
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials, req) {
+        console.log("authorize");
+        console.log("credentials: ", credentials);
+        console.log("req: ", req);
+
         await dbConnect();
-        // Add logic here to look up the user from the credentials supplied
+
         if (credentials == null) return null;
-        // login
 
         try {
           const user = await User.findOne({ email: credentials.email });

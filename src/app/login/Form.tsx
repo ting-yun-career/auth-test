@@ -4,7 +4,6 @@ import { useSearchParams, useRouter } from "next/navigation";
 import styles from "./Form.module.css";
 import Link from "next/link";
 import { signIn, useSession } from "next-auth/react";
-import { BsArrowRightCircleFill } from "react-icons/bs";
 import { useForm, SubmitHandler } from "react-hook-form";
 import Loader from "../loading";
 
@@ -36,10 +35,10 @@ const Form = () => {
   }, [params]);
 
   if (session.status === "authenticated") {
-    router?.push("/my/dashboard");
+    router?.push("/dashboard");
   }
 
-  const formSubmit: SubmitHandler<Inputs> = (form) => {
+  const formSubmit: SubmitHandler<Inputs> = (form: any) => {
     const { email, password } = form;
     signIn("credentials", {
       email,
@@ -60,13 +59,12 @@ const Form = () => {
 
       <fieldset className="w-full px-2 flex justify-center items-center flex-col">
         <label className="w-full " htmlFor="email">
-          Email
+          Email (simple)
         </label>
         <input
-          type="email"
+          type="text"
           {...register("email", {
             required: "Email is required",
-            pattern: /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/,
           })}
           className=" w-full   border-solid border-[1px] border-[#EAECEF]"
         />
