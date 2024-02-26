@@ -34,7 +34,8 @@ export const authOptions: NextAuthOptions = {
       async authorize(credentials, req) {
         console.log("authorize");
         console.log("credentials: ", credentials);
-        console.log("req: ", req);
+        console.log("request query: ", req.query);
+        console.log("request body: ", req.body);
 
         await dbConnect();
 
@@ -64,7 +65,7 @@ export const authOptions: NextAuthOptions = {
   ],
   pages: {
     signIn: "/login",
-    newUser: "/my/dashboard",
+    newUser: "/register",
     error: "/login",
   },
   callbacks: {

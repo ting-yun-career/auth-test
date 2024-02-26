@@ -17,6 +17,14 @@ const Form = () => {
   const session = useSession();
   const router = useRouter();
 
+  if (session.status === "authenticated") {
+    router?.push("/dashboard");
+  }
+
+  if (session.status === "loading") {
+    console.log("loading");
+  }
+
   const {
     register,
     handleSubmit,
@@ -33,10 +41,6 @@ const Form = () => {
   useEffect(() => {
     setError(params.get("error"));
   }, [params]);
-
-  if (session.status === "authenticated") {
-    router?.push("/dashboard");
-  }
 
   const formSubmit: SubmitHandler<Inputs> = (form: any) => {
     const { email, password } = form;
