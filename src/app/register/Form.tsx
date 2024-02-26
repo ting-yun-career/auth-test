@@ -61,9 +61,7 @@ const Form = () => {
 
   return (
     <form
-      onSubmit={handleSubmit(formSubmit, (err) => {
-        debugger;
-      })}
+      onSubmit={handleSubmit(formSubmit)}
       autoComplete="off"
       className={`${styles.form_container} -mt-2 flex justify-center items-center flex-col`}
     >
