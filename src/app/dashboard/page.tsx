@@ -3,8 +3,6 @@
 import { signOut } from "next-auth/react";
 
 export default function Dashboard() {
-  // const session = await getServerSession(authOptions);
-
   return (
     <main className="mx-auto mt-4 max-w-5xl px-6">
       <button
