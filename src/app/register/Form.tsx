@@ -37,7 +37,6 @@ const Form = () => {
   const [message, setMessage] = useState<null | string>(null);
 
   const formSubmit: SubmitHandler<Inputs> = async (form: any) => {
-    console.log("submit");
     const { fullName, email, password } = form;
 
     try {
@@ -65,7 +64,6 @@ const Form = () => {
       autoComplete="off"
       className={`${styles.form_container} -mt-2 flex justify-center items-center flex-col`}
     >
-      {JSON.stringify(message)}
       <fieldset className="w-full mx-4 flex justify-center items-center flex-col">
         <div className="w-full px-2">
           <label htmlFor="lastName" className="text-sm">
@@ -122,15 +120,6 @@ const Form = () => {
         </div>
       </fieldset>
       <div className="flex flex-col w-full items-center px-2">
-        <p className="w-full text-left">
-          <Link
-            href="/login"
-            className="text-lightColor hover:text-primaryColor hover:underline"
-          >
-            {" "}
-            Login with an existing account
-          </Link>
-        </p>
         {message && <small className="block text-red-600">{message}</small>}
         <button
           type="submit"

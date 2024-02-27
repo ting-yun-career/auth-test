@@ -2,10 +2,10 @@
 import { useEffect, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import styles from "./Form.module.css";
-import Link from "next/link";
 import { signIn, useSession } from "next-auth/react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import Loader from "../loading";
+import Link from "next/link";
 
 type Inputs = {
   email: string;
@@ -51,66 +51,81 @@ const Form = () => {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit(formSubmit)}
-      className={`${styles.form_container} flex justify-center items-center flex-col`}
-    >
-      <h2
-        className={`leading-[1.15] mt-12 mx-auto w-full  px-2 text-xl my-6 sm:text-2xl font-semibold  font-Poppins`}
+    <>
+      <form
+        onSubmit={handleSubmit(formSubmit)}
+        className={`${styles.form_container} mb-8 flex justify-center items-center flex-col`}
       >
-        Log In
-      </h2>
-
-      <fieldset className="w-full px-2 flex justify-center items-center flex-col">
-        <label className="w-full " htmlFor="email">
-          Email (simple)
-        </label>
-        <input
-          type="text"
-          {...register("email", {
-            required: "Email is required",
-          })}
-          className=" w-full   border-solid border-[1px] border-[#EAECEF]"
-        />
-        {errors.email?.message && (
-          <small className="block text-red-600 w-full">
-            {errors.email.message}
-          </small>
-        )}
-      </fieldset>
-      <fieldset className="w-full px-2 mt-12 flex justify-center items-center flex-col">
-        <label className="w-full" htmlFor="password">
-          Password
-        </label>
-        <input
-          type="password"
-          {...register("password", {
-            required: "Password is required",
-          })}
-          className=" w-full   border-solid border-[1px] border-[#EAECEF]"
-        />
-        {errors.password?.message && (
-          <small className="block text-red-600 w-full">
-            {errors.password.message}
-          </small>
-        )}
-      </fieldset>
-      <div className={`flex flex-col justify-center w-full items-center px-2`}>
-        <button
-          type="submit"
-          disabled={isSubmitting}
-          className="w-full flex justify-center items-center"
+        <h2
+          className={`leading-[1.15] mt-12 mx-auto w-full text-xl my-6 sm:text-2xl font-semibold  font-Poppins`}
         >
-          <span className="text-center flex-1   mt-6 bg-green-700 hover:bg-lightColor hover:font-semibold rounded-md p-[1rem] px-4  text-white cursor-pointer">
-            Log in
-          </span>
-        </button>
+          Sign In
+        </h2>
+        <fieldset className="w-full flex justify-center items-center flex-col">
+          <label className="w-full " htmlFor="email">
+            Email
+          </label>
+          <input
+            type="text"
+            {...register("email", {
+              required: "Email is required",
+            })}
+            className="w-full border-solid border-[1px] border-[#EAECEF]"
+          />
+          {errors.email?.message && (
+            <small className="block text-red-600 w-full">
+              {errors.email.message}
+            </small>
+          )}
+        </fieldset>
+        <fieldset className="w-full mt-12 flex justify-center items-center flex-col">
+          <label className="w-full" htmlFor="password">
+            Password
+          </label>
+          <input
+            type="password"
+            {...register("password", {
+              required: "Password is required",
+            })}
+            className="w-full border-solid border-[1px] border-[#EAECEF]"
+          />
+          {errors.password?.message && (
+            <small className="block text-red-600 w-full">
+              {errors.password.message}
+            </small>
+          )}
+        </fieldset>
+        <div className={`flex flex-col justify-center w-full items-center`}>
+          <button
+            type="submit"
+            disabled={isSubmitting || session?.status === "loading"}
+            className="w-full flex justify-center items-center"
+          >
+            <span className="text-center flex-1 mt-6 bg-green-700 hover:bg-green-600 rounded-md p-[1rem] px-4  text-white cursor-pointer">
+              Sign in
+            </span>
+          </button>
+        </div>
+        {error && (
+          <small className="block w-full px-2 text-red-600">{error}</small>
+        )}
+        {isSubmitting && <Loader />}
+      </form>
+      <div className="flex items-center justify-between">
+        <div className="w-full h-[1px] bg-gray-300"></div>
+        <span className="text-sm uppercase mx-6 text-gray-400">Or</span>
+        <div className="w-full h-[1px] bg-gray-300"></div>
       </div>
-      {error && (
-        <small className="block w-full px-2 text-red-600">{error}</small>
-      )}
-      {isSubmitting && <Loader />}
-    </form>
+
+      <div className="w-full flex justify-center items-center mt-6">
+        <Link
+          href="/register"
+          className="text-center flex-1 bg-blue-700 hover:bg-blue-600 rounded-md p-[1rem] px-4  text-white cursor-pointer"
+        >
+          Sign up
+        </Link>
+      </div>
+    </>
   );
 };
 
