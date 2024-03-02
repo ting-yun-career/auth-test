@@ -32,11 +32,6 @@ export const authOptions: NextAuthOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials, req) {
-        console.log("authorize");
-        console.log("credentials: ", credentials);
-        console.log("request query: ", req.query);
-        console.log("request body: ", req.body);
-
         await dbConnect();
 
         if (credentials == null) return null;
