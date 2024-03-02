@@ -1,4 +1,5 @@
 "use client";
+
 import { useEffect, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import styles from "./Form.module.css";
@@ -56,9 +57,7 @@ const Form = () => {
         onSubmit={handleSubmit(formSubmit)}
         className={`${styles.form_container} mb-8 flex justify-center items-center flex-col`}
       >
-        <h2
-          className={`leading-[1.15] mt-12 mx-auto w-full text-xl my-6 sm:text-2xl font-semibold  font-Poppins`}
-        >
+        <h2 className="leading-[1.15] mt-12 mx-auto w-full text-xl my-6 sm:text-2xl font-semibold">
           Sign In
         </h2>
         <fieldset className="w-full flex justify-center items-center flex-col">
@@ -95,17 +94,13 @@ const Form = () => {
             </small>
           )}
         </fieldset>
-        <div className={`flex flex-col justify-center w-full items-center`}>
-          <button
-            type="submit"
-            disabled={isSubmitting || session?.status === "loading"}
-            className="w-full flex justify-center items-center"
-          >
-            <span className="text-center flex-1 mt-6 bg-green-700 hover:bg-green-600 rounded-md p-[1rem] px-4  text-white cursor-pointer">
-              Sign in
-            </span>
-          </button>
-        </div>
+        <button
+          type="submit"
+          disabled={isSubmitting || session?.status === "loading"}
+          className="btn btn-primary w-full mt-6"
+        >
+          Sign in
+        </button>
         {error && (
           <small className="block w-full px-2 text-red-600">{error}</small>
         )}
@@ -117,14 +112,9 @@ const Form = () => {
         <div className="w-full h-[1px] bg-gray-300"></div>
       </div>
 
-      <div className="w-full flex justify-center items-center mt-6">
-        <Link
-          href="/register"
-          className="text-center flex-1 bg-blue-700 hover:bg-blue-600 rounded-md p-[1rem] px-4  text-white cursor-pointer"
-        >
-          Sign up
-        </Link>
-      </div>
+      <Link href="/register" className="btn btn-neutral w-full mt-6">
+        Sign up
+      </Link>
     </>
   );
 };

@@ -1,7 +1,6 @@
 "use client";
 
 import styles from "./Form.module.css";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
@@ -69,7 +68,7 @@ const Form = () => {
             })}
             type="text"
             autoComplete="false"
-            className="p-3 w-full border-solid border-[1px] border-[#EAECEF]"
+            className="p-3 w-full"
           />
           {errors.fullName?.message && (
             <small className="block text-red-600">
@@ -87,7 +86,7 @@ const Form = () => {
             })}
             type="text"
             autoComplete="off"
-            className="p-3 w-full border-solid border-[1px] border-[#EAECEF]"
+            className="p-3 w-full"
           />
           {errors.email?.message && (
             <small className="block text-red-600">{errors.email.message}</small>
@@ -104,7 +103,7 @@ const Form = () => {
               required: "Password is required",
             })}
             autoComplete="new-password"
-            className="p-3 w-full border-solid border-[1px] border-[#EAECEF]"
+            className="p-3 w-full"
           />
           {errors.password?.message && (
             <small className="block text-red-600">
@@ -113,16 +112,14 @@ const Form = () => {
           )}
         </div>
       </fieldset>
-      <div className="flex flex-col w-full items-center mt-6">
-        {message && <small className="block text-red-600">{message}</small>}
-        <button
-          type="submit"
-          disabled={isSubmitting}
-          className="text-center flex-1 w-full bg-green-700 hover:bg-white hover:text-green-700 hover:border-green-700 hover:border-[1px] hover:font-semibold rounded-md p-[1rem] px-4 mx-2  text-white cursor-pointer"
-        >
-          Register
-        </button>
-      </div>
+      {message && <small className="block text-red-600">{message}</small>}
+      <button
+        type="submit"
+        disabled={isSubmitting}
+        className="btn btn-primary w-full mt-6"
+      >
+        Register
+      </button>
       {isSubmitting && <Loader />}
     </form>
   );

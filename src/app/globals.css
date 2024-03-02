@@ -21,3 +21,10 @@
     text-wrap: balance;
   }
 }
+
+[data-theme="light"] input[type="text"],
+[data-theme="light"] input[type="password"] {
+  border-color: #999;
+  border-radius: 3px;
+  border-width: 1px;
+}

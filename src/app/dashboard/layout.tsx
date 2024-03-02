@@ -12,7 +12,7 @@ export default function DashboardLayout({
 }) {
   return (
     <>
-      <div className="flex justify-end w-full bg-teal-500 p-[1rem]">
+      <div className="flex justify-end w-full p-[1rem] bg-primary">
         <SignOutBtn />
       </div>
       {children}
