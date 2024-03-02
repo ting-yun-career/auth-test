@@ -1,3 +1,3 @@
 export default function Dashboard() {
-  return <main className="mx-auto mt-4 max-w-5xl px-6">Dashboard</main>;
+  return <main className="mt-[2rem] px-[3rem]">Dashboard</main>;
 }
