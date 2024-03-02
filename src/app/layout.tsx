@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { NextAuthProvider } from "./Provider";
-import { OpenSans, inter } from "./fonts";
-import SignOutBtn from "./(component)/(sign-out)/SignOutBtn";
+import { OpenSans } from "./fonts";
 
 export const metadata: Metadata = {
   title: "NextJS Demo",
