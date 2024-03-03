@@ -13,8 +13,6 @@ const Form = () => {
   const formSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    console.log(formData.get("email"));
-    console.log(formData.get("password"));
 
     signIn(
       "credentials",
