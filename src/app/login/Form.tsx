@@ -1,12 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
-import styles from "./Form.module.css";
-import { signIn, useSession } from "next-auth/react";
-import { useForm, SubmitHandler } from "react-hook-form";
-import Loader from "../loading";
+import { signIn } from "next-auth/react";
 import Link from "next/link";
+import { FormEvent } from "react";
 
 type Inputs = {
   email: string;
@@ -14,99 +10,45 @@ type Inputs = {
 };
 
 const Form = () => {
-  const params = useSearchParams()!;
-  const session = useSession();
-  const router = useRouter();
+  const formSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    console.log(formData.get("email"));
+    console.log(formData.get("password"));
 
-  if (session.status === "authenticated") {
-    router?.push("/dashboard");
-  }
-
-  if (session.status === "loading") {
-    console.log("loading");
-  }
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-  } = useForm<Inputs>({
-    defaultValues: {
-      email: "",
-      password: "",
-    },
-  });
-
-  const [error, setError] = useState<string | null>("");
-
-  useEffect(() => {
-    setError(params.get("error"));
-  }, [params]);
-
-  const formSubmit: SubmitHandler<Inputs> = (form: any) => {
-    const { email, password } = form;
-    signIn("credentials", {
-      email,
-      password,
-    });
+    signIn(
+      "credentials",
+      {
+        email: formData.get("email"),
+        password: formData.get("password"),
+      },
+      { callbackUrl: "/dashboard" }
+    );
   };
 
   return (
     <>
-      <form
-        onSubmit={handleSubmit(formSubmit)}
-        className={`${styles.form_container} mb-8 flex justify-center items-center flex-col`}
-      >
-        <h2 className="leading-[1.15] mt-12 mx-auto w-full text-xl my-6 sm:text-2xl font-semibold">
+      <form onSubmit={(e) => formSubmit(e)}>
+        <h2 className="mt-12 mx-auto w-full text-xl mt-20 sm:text-2xl font-semibold">
           Sign In
         </h2>
-        <fieldset className="w-full flex justify-center items-center flex-col">
-          <label className="w-full " htmlFor="email">
+        <fieldset className="mt-10">
+          <label className="w-full" htmlFor="email">
             Email
           </label>
-          <input
-            type="text"
-            {...register("email", {
-              required: "Email is required",
-            })}
-            className="w-full border-solid border-[1px] border-[#EAECEF]"
-          />
-          {errors.email?.message && (
-            <small className="block text-red-600 w-full">
-              {errors.email.message}
-            </small>
-          )}
+          <input name="email" type="text" className="w-full" />
         </fieldset>
-        <fieldset className="w-full mt-12 flex justify-center items-center flex-col">
+        <fieldset className="mt-10">
           <label className="w-full" htmlFor="password">
             Password
           </label>
-          <input
-            type="password"
-            {...register("password", {
-              required: "Password is required",
-            })}
-            className="w-full border-solid border-[1px] border-[#EAECEF]"
-          />
-          {errors.password?.message && (
-            <small className="block text-red-600 w-full">
-              {errors.password.message}
-            </small>
-          )}
+          <input name="password" type="password" className="w-full" />
         </fieldset>
-        <button
-          type="submit"
-          disabled={isSubmitting || session?.status === "loading"}
-          className="btn btn-primary w-full mt-6"
-        >
+        <button type="submit" className="btn btn-primary w-full mt-12">
           Sign in
         </button>
-        {error && (
-          <small className="block w-full px-2 text-red-600">{error}</small>
-        )}
-        {isSubmitting && <Loader />}
       </form>
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between mt-6">
         <div className="w-full h-[1px] bg-gray-300"></div>
         <span className="text-sm uppercase mx-6 text-gray-400">Or</span>
         <div className="w-full h-[1px] bg-gray-300"></div>

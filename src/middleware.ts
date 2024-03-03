@@ -12,10 +12,16 @@ export async function middleware(req: NextRequest) {
   });
 
   if (!session) {
+    if (pathname === "/") {
+      return NextResponse.redirect(new URL("/login", req.url));
+    }
     if (pathname === "/dashboard") {
       return NextResponse.redirect(new URL("/login", req.url));
     }
   } else {
+    if (pathname === "/") {
+      return NextResponse.redirect(new URL("/dashboard", req.url));
+    }
     if (pathname === "/login") {
       return NextResponse.redirect(new URL("/dashboard", req.url));
     }
