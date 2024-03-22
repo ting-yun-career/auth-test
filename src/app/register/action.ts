@@ -22,12 +22,6 @@ export const register = async (formState: any, formData: FormData) => {
 
   try {
     await newUser.save();
-
-    return {
-      _form: {
-        username,
-      },
-    };
   } catch (err: any) {
     console.log(err);
     return {
@@ -36,4 +30,6 @@ export const register = async (formState: any, formData: FormData) => {
       },
     };
   }
+
+  redirect("/dashboard");
 };

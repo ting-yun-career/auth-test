@@ -3,19 +3,9 @@
 import styles from "./Form.module.css";
 import { useFormState } from "react-dom";
 import { register } from "./action";
-import { useEffect } from "react";
-import { redirect } from "next/navigation";
 
 const Form = () => {
   const [formState, formAction] = useFormState(register, null);
-
-  useEffect(() => {
-    const username = formState?._form?.username;
-
-    if (username) {
-      redirect("/dashboard");
-    }
-  }, [formState]);
 
   return (
     <form
