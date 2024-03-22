@@ -1,59 +1,25 @@
 "use client";
 
 import styles from "./Form.module.css";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
-import Loader from "../loading";
-
-type Inputs = {
-  email: string;
-  fullName: string;
-  password: string;
-};
+import { useFormState } from "react-dom";
+import { register } from "./action";
+import { useEffect } from "react";
+import { redirect } from "next/navigation";
 
 const Form = () => {
-  const router = useRouter();
+  const [formState, formAction] = useFormState(register, null);
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-  } = useForm<Inputs>({
-    defaultValues: {
-      email: "",
-      fullName: "",
-      password: "",
-    },
-  });
+  useEffect(() => {
+    const username = formState?._form?.username;
 
-  const [message, setMessage] = useState<null | string>(null);
-
-  const formSubmit: SubmitHandler<Inputs> = async (form: any) => {
-    const { fullName, email, password } = form;
-
-    try {
-      const res = await fetch("/api/auth/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          fullName,
-          email,
-          password,
-        }),
-      });
-      res.status === 201 &&
-        router.push("/login?success=Account has been created");
-    } catch (err: any) {
-      setMessage(err);
+    if (username) {
+      redirect("/dashboard");
     }
-  };
+  }, [formState]);
 
   return (
     <form
-      onSubmit={handleSubmit(formSubmit)}
+      action={formAction}
       autoComplete="off"
       className={`${styles.form_container} -mt-2 flex justify-center items-center flex-col`}
     >
@@ -63,34 +29,22 @@ const Form = () => {
             First Name
           </label>
           <input
-            {...register("fullName", {
-              required: "First Name is required",
-            })}
+            name="username"
             type="text"
             autoComplete="false"
             className="p-3 w-full"
           />
-          {errors.fullName?.message && (
-            <small className="block text-red-600">
-              {errors.fullName.message}
-            </small>
-          )}
         </div>
         <div className="w-full px-2">
           <label htmlFor="email" className="text-sm">
             Email
           </label>
           <input
-            {...register("email", {
-              required: "Email is required",
-            })}
+            name="email"
             type="text"
             autoComplete="off"
             className="p-3 w-full"
           />
-          {errors.email?.message && (
-            <small className="block text-red-600">{errors.email.message}</small>
-          )}
         </div>
 
         <div className="w-full px-2">
@@ -98,29 +52,17 @@ const Form = () => {
             Password
           </label>
           <input
+            name="password"
             type="password"
-            {...register("password", {
-              required: "Password is required",
-            })}
             autoComplete="new-password"
             className="p-3 w-full"
           />
-          {errors.password?.message && (
-            <small className="block text-red-600">
-              {errors.password.message}
-            </small>
-          )}
         </div>
       </fieldset>
-      {message && <small className="block text-red-600">{message}</small>}
-      <button
-        type="submit"
-        disabled={isSubmitting}
-        className="btn btn-primary w-full mt-6"
-      >
+      {JSON.stringify(formState)}
+      <button type="submit" className="btn btn-primary w-full mt-6">
         Register
       </button>
-      {isSubmitting && <Loader />}
     </form>
   );
 };
